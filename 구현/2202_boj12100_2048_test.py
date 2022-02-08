@@ -3,24 +3,12 @@
 # 1. 
 # ----------------------------------------
 
-class BlockNumber:
-    def __init__(self, num):
-        self.value = num
-        self.flag = 0
-
 def rotate_90(table):
-    # tmp_table 생성 및 초기화
-    tmp_table = []
-    for _ in range(N):
-        tmp = []
-        for _ in range(N):
-            tmp.append(BlockNumber(0)) # 0으로 초기화
-        tmp_table.append(tmp)
+    tmp_table = [[0] * N for _ in range(N)] # 0으로 초기화
 
-    # 90도 회전
     for i in range(N):
         for j in range(N):
-            tmp_table[i][j].value = table[N-1-j][i].value
+            tmp_table[i][j] = table[N-1-j][i]
 
     return tmp_table
 
@@ -46,7 +34,7 @@ def move_n_merge(table, dir):
 
     for i in range(N):
         for j in range(N):
-            if tmp_table[i][j].value == 0: # 블록이 아닌 경우
+            if tmp_table[i][j] == 0: # 블록이 아닌 경우
                 continue
             # 현재 좌표
             px = j
@@ -58,28 +46,26 @@ def move_n_merge(table, dir):
                 continue
 
             # 블록이 없는 경우 계속 이동
-            while nx >= 0 and nx < N and ny >= 0 and ny < N and tmp_table[ny][nx].value == 0:
+            while nx >= 0 and nx < N and ny >= 0 and ny < N and tmp_table[ny][nx] == 0:
                 nx += dir_x
                 ny += dir_y
 
             if nx < 0 or nx >= N or ny < 0 or ny >= N: # 범위의 끝까지 도달한 경우
                 nx -= dir_x
                 ny -= dir_y
-                tmp_table[ny][nx].value = tmp_table[py][px].value
-                tmp_table[py][px].value = 0
-            elif tmp_table[ny][nx].value == tmp_table[py][px].value: # 블록을 만났는데 값이 같은 경우
-                if tmp_table[ny][nx].flag == 0:
-                    tmp_table[ny][nx].value += tmp_table[py][px].value
-                    tmp_table[ny][nx].flag = 1 # flag 변경
-                tmp_table[py][px].value = 0
+                tmp_table[ny][nx] = tmp_table[py][px]
+                tmp_table[py][px] = 0
+            elif tmp_table[ny][nx] == tmp_table[py][px]: # 블록을 만났는데 값이 같은 경우
+                tmp_table[ny][nx] += tmp_table[py][px]
+                tmp_table[py][px] = 0
             else: # 블록을 만났는데 값이 다른 경우
                 if ny == py - 1: # 이미 붙어있어 이동이 없는 경우
                     continue
                 else: # 이동이 있는 경우
                     nx -= dir_x
                     ny -= dir_y
-                    tmp_table[ny][nx].value = tmp_table[py][px].value
-                    tmp_table[py][px].value = 0
+                    tmp_table[ny][nx] = tmp_table[py][px]
+                    tmp_table[py][px] = 0
 
     # 회전된 테이블 원복
     if dir == 0: # up => 현상태 유지
@@ -101,20 +87,13 @@ N = int(input())
 # 입력값 기준 table 저장
 table = []
 for _ in range(N):
-    tmp = []
-    for num in list(map(int, input().split())):
-        tmp.append(BlockNumber(num))
-    table.append(tmp)
+    table.append(list(map(int, input().split())))        
 
 for row in table: # test
-    for v in row:
-        print(v.value, end=' ')
-    print()
+    print(row)
 print('-'*30)
 
 tmp_table = move_n_merge(table, 0)
 
-for row in tmp_table: # test
-    for v in row:
-        print(v.value, end=' ')
-    print()
+for row in tmp_table:
+    print(row)
