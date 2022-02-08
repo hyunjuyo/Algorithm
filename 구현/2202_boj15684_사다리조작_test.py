@@ -1,4 +1,5 @@
 from itertools import combinations
+from time import sleep
 
 def is_same_result(table, N, H):
     ret = True
@@ -12,9 +13,10 @@ def is_same_result(table, N, H):
                 now_i += 1
             elif table[j][now_i - 1] == '-':
                 now_i -= 1
+        print(i, 'result :', now_i) # test
         if i != now_i:
             ret = False
-            break
+            # break
     
     return ret
 
@@ -22,6 +24,9 @@ N, M, H = map(int, input().split())
 
 # table 생성 및 '*'로 초기화
 table = [['*'] * (N + 1) for _ in range(H + 1)]
+
+# for row in table: # test
+#     print(row)
 
 # 입력값으로 주어진 가로선 그리기
 for _ in range(M):
@@ -36,8 +41,12 @@ for i in range(H + 1):
             table[i][j] = 0
         elif table[i][j-1] == '-' or table[i][j+1] == '-': # 연속하거나 접한 경우 => ' '
             table[i][j] = ' '
+        
         if table[i][j] == '*': # 가로선 입력가능 위치정보 저장
             cand_list.append((i, j))
+
+for row in table: # test
+    print(row)
 
 # 추가해야 하는 가로선 개수 증가시키며 사다리게임 결과 확인
 result = -1
@@ -46,16 +55,26 @@ for n in range(4): # 0부터 3까지 체크
 
     # 추출된 가로선 추가 및 결과 체크
     for comb in comb_list:
+        print('-' * 50) # test
+        print('가로선 추가 위치 :', comb) # test
         tmp_table = [table[row][:] for row in range(H + 1)] # table 복사
         for com in comb:
             i, j = com
             tmp_table[i][j] = '-' # 해당 위치 가로선 추가
 
+        for row in tmp_table: # test
+            print(row)
+        sleep(0.3) # test
+
         if is_same_result(tmp_table, N, H): # 사다리게임 결과 확인
             result = n
             break
+        else: # test
+            print('False')
 
     if result != -1:
+        print('True') # test
         break
 
+print('추가해야 하는 가로선 개수 :', end=' ')
 print(result)
