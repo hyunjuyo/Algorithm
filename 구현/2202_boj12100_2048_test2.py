@@ -117,27 +117,18 @@ for _ in range(N):
 #     print()
 # print('-'*30)
 
-tmp_table = move_n_merge(table, 'left')
-print('-'*30)
-for row in tmp_table: # test
-    for v in row:
-        print(v.value, end=' ')
-    print()
-tmp_table = move_n_merge(tmp_table, 'right')
-print('-'*30)
-for row in tmp_table: # test
-    for v in row:
-        print(v.value, end=' ')
-    print()
-tmp_table = move_n_merge(tmp_table, 'up')
-print('-'*30)
-for row in tmp_table: # test
-    for v in row:
-        print(v.value, end=' ')
-    print()
-tmp_table = move_n_merge(tmp_table, 'right')
-print('-'*30)
-for row in tmp_table: # test
-    for v in row:
-        print(v.value, end=' ')
-    print()
+tmp_table = [table[row][:] for row in range(N)]
+
+dir_order = ['right', 'up', 'up', 'right', 'right']
+dir_order2 = ['up', 'left', 'up', 'right', 'right']
+dir_order3 = ['right', 'up', 'up', 'right', 'right']
+
+for dir in dir_order2:
+    print('-'*30)
+    print(dir)
+    tmp_table = move_n_merge(tmp_table, dir)
+
+    for row in tmp_table: # test
+        for v in row:
+            print(v.value, end=' ')
+        print()

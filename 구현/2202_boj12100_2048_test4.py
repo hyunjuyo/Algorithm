@@ -4,6 +4,7 @@
 # ----------------------------------------
 
 import copy
+from time import sleep
 
 class BlockNumber:
     def __init__(self, num):
@@ -31,7 +32,7 @@ def move_n_merge(table, dir):
 
     # dir값에 따라 테이블 회전시키기
     if dir == 'up': # up => 현상태 유지
-        tmp_table = copy.deepcopy(table) # table 복사
+        tmp_table = copy.deepcopy(table)
         # tmp_table = [table[row][:] for row in range(N)] # 이렇게 복사 하면 안 됨 !!!!!
     elif dir == 'right': # right => +270도
         tmp_table = rotate_90(table)
@@ -117,18 +118,31 @@ def get_max_num(table):
 # 케이스별 5번 이동시키며 가장 큰 블록의 값 리스트 저장
 def dfs(table, n_count):
     if n_count > 5:
+        print() # test
         return
 
     dir_list = ['up', 'right', 'down', 'left']
 
     for dir in dir_list:
+        print(dir, end=' ') # test
         tmp_table = copy.deepcopy(table) # 현 table 상태 복사 !!!!!
+        # tmp_table = [table[row][:] for row in range(N)]
         tmp_table = move_n_merge(tmp_table, dir)
         dfs(tmp_table, n_count + 1)
 
         if n_count == 5: # 5번 이동한 경우만 체크 !!!!!
             max_num = get_max_num(tmp_table)
             max_num_list.append(max_num)
+
+            # print("~"*50) # test
+            # for row in tmp_table: # test
+            #     for v in row:
+            #         print(v.value, end=' ')
+            #     print()
+            # print("~"*50) # test
+
+            # sleep(0.5) # test
+
 
 N = int(input())
 
@@ -140,7 +154,11 @@ for _ in range(N):
         tmp.append(BlockNumber(num))
     table.append(tmp)
 
+# tmp_table = copy.deepcopy(table)
+# tmp_table = [table[row][:] for row in range(N)]
+
 max_num_list = []
 dfs(table, 1)
 
+print(len(max_num_list))
 print(max(max_num_list))
