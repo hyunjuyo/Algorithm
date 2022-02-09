@@ -101,28 +101,6 @@ def move_n_merge(table, dir):
 
     return tmp_table
 
-# 가장 큰 블록의 값 반환 함수
-def get_max_num(table):
-    max_num = 0
-    for row in table:
-        for v in row:
-            if v.value > max_num:
-                max_num = v.value
-    
-    return max_num
-
-# 케이스별 5번 이동시키며 가장 큰 블록의 값 리스트 저장
-def dfs(table, n_count):
-    if n_count > 5:
-        return
-
-    dir_list = ['up', 'right', 'down', 'left']
-
-    for dir in dir_list:
-        table = move_n_merge(table, dir)
-        dfs(table, n_count + 1)
-        num_list.append(get_max_num(table))
-
 N = int(input())
 
 # 입력값 기준 table 저장
@@ -133,9 +111,33 @@ for _ in range(N):
         tmp.append(BlockNumber(num))
     table.append(tmp)
 
-tmp_table = [table[row][:] for row in range(N)]
+# for row in table: # test
+#     for v in row:
+#         print(v.value, end=' ')
+#     print()
+# print('-'*30)
 
-num_list = []
-max_num = dfs(tmp_table, 1)
-
-print(max(num_list))
+tmp_table = move_n_merge(table, 'left')
+print('-'*30)
+for row in tmp_table: # test
+    for v in row:
+        print(v.value, end=' ')
+    print()
+tmp_table = move_n_merge(tmp_table, 'right')
+print('-'*30)
+for row in tmp_table: # test
+    for v in row:
+        print(v.value, end=' ')
+    print()
+tmp_table = move_n_merge(tmp_table, 'up')
+print('-'*30)
+for row in tmp_table: # test
+    for v in row:
+        print(v.value, end=' ')
+    print()
+tmp_table = move_n_merge(tmp_table, 'right')
+print('-'*30)
+for row in tmp_table: # test
+    for v in row:
+        print(v.value, end=' ')
+    print()

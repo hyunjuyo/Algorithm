@@ -111,7 +111,6 @@ def get_max_num(table):
     
     return max_num
 
-# 케이스별 5번 이동시키며 가장 큰 블록의 값 리스트 저장
 def dfs(table, n_count):
     if n_count > 5:
         return
@@ -133,9 +132,26 @@ for _ in range(N):
         tmp.append(BlockNumber(num))
     table.append(tmp)
 
+# for row in table: # test
+#     for v in row:
+#         print(v.value, end=' ')
+#     print()
+# print('-'*30)
+
 tmp_table = [table[row][:] for row in range(N)]
+
+# tmp_table = move_n_merge(table, 'right')
+# tmp_table = move_n_merge(tmp_table, 'up')
+# tmp_table = move_n_merge(tmp_table, 'right')
 
 num_list = []
 max_num = dfs(tmp_table, 1)
 
+print(num_list)
 print(max(num_list))
+
+# print('-'*30)
+# for row in tmp_table: # test
+#     for v in row:
+#         print(v.value, end=' ')
+#     print()
