@@ -1,5 +1,5 @@
-import copy
 import sys
+# import copy
 
 N = int(input())
 
@@ -10,7 +10,8 @@ for i in range(N):
 min_count = N * N # 가능한 최대값으로 초기화
 
 for bit in range(1 << N): # 행에 대한 경우의수 모두 체크
-    tmp_table = copy.deepcopy(table)
+    # tmp_table = copy.deepcopy(table) # deepcopy()로 할 경우 시간 더 오래 걸림
+    tmp_table = [table[row][:] for row in range(N)]
     for i in range(N):
         if bit & (1 << i): # 해당 행 판단
             # print(i) # test
