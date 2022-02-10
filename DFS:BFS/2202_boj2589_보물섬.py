@@ -2,7 +2,7 @@ import sys
 from collections import deque
 
 def bfs(i, j):
-    tmp_table[i][j] = 0 # 시작지점 0 입력
+    tmp_table[i][j] = 0 # 시작지점 구분을 위해 0 입력
 
     # 북, 동, 남, 서
     dir_i = [-1, 0, 1, 0]
