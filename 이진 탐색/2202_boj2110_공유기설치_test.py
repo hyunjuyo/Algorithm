@@ -5,10 +5,16 @@ import sys
 def get_c_count(dist):
     c_count = 1
     tmp_num = arr[0] # 배열의 첫번째 값으로 초기화
+    tmp = [] # test
     for i, v in enumerate(arr):
+        tmp.append(v) # test
         if v - tmp_num >= dist: # dist 이상인 경우
+            t = tmp.pop() # test
+            tmp.append('/') # test
+            tmp.append(t) # test
             c_count += 1
             tmp_num = v # 업데이트
+    print('=>', c_count, tmp) # test
     
     return c_count
 
@@ -23,6 +29,7 @@ r = arr[-1] - arr[0] # 가능한 최대값
 result = 0 # 가장 작은 값으로 초기화
 while l <= r:
     mid = (l + r) // 2
+    print(l, r, f'mid : {mid}') # test
     c_count = get_c_count(mid)
 
     if c_count < C:
