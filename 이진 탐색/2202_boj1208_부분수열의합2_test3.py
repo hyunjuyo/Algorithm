@@ -1,4 +1,4 @@
-# 부분수열의 합 list 반환 함수
+
 def get_sub_sum_list(arr_name):
     lth = len(arr_name)
     sub_sum_list = []
@@ -11,7 +11,6 @@ def get_sub_sum_list(arr_name):
     
     return sub_sum_list, len(sub_sum_list)
 
-# 부분수열의 합 list에서 동일한 숫자가 있을 경우, 해당 개수 반환 함수
 def get_num_count(num, idx, lth, sub_sum_list):
     num_count = 1
     while True:
@@ -39,6 +38,15 @@ sub_sum_r, lth_r = get_sub_sum_list(arr_r)
 sub_sum_l.sort() # 오름차순 정렬
 sub_sum_r.sort(reverse=True) # 내림차순 정렬
 
+print(arr_l, sub_sum_l) # test
+print(arr_r, sub_sum_r) # test
+
+# count = 0
+# for l_idx in range(len(sub_sum_l)):
+#     for r_idx in range(len(sub_sum_r)):
+#         if sub_sum_l[l_idx] + sub_sum_r[r_idx] == S:
+#             count += 1
+
 count = 0
 idx_l = 0 
 idx_r = 0
@@ -50,6 +58,7 @@ while idx_l < lth_l and idx_r < lth_r:
     elif num_l + num_r < S:
         idx_l += 1 # 합계가 커지는 방향
     else:
+        print(idx_l, idx_r) # test
         num_l_count, idx_l = get_num_count(num_l, idx_l, lth_l, sub_sum_l)
         num_r_count, idx_r = get_num_count(num_r, idx_r, lth_r, sub_sum_r)
         count += num_l_count * num_r_count # 중복 케이스를 반영해 개수 더하기
@@ -58,3 +67,6 @@ if S == 0:
     count -= 1 # 두 arr 모두 아무것도 뽑지 않은 케이스 1개 제외
 
 print(count)
+
+# 6 0
+# -7 -3 -2 2 3 5
