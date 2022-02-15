@@ -1,4 +1,3 @@
-
 import sys
 
 # 주어진 dist 기준의 공유기 개수 반환 함수
