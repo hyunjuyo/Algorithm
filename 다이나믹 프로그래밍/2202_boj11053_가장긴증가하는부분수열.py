@@ -1,17 +1,13 @@
-
-
 N = int(input())
 arr = list(map(int, input().split()))
 
-info = []
-for i, v1 in enumerate(arr):
-    count = 1
-    tmp = v1
-    for j, v2 in enumerate(arr):
-        if i < j and tmp < v2: # 시작 index 다음부터 값이 증가할 때마다 업데이트
-            count += 1
-            tmp = v2
-    info.append(count)
+info = [1] * N # 1로 초기화
 
-print(info) # test
+for i in range(1, N):
+    for j in range(i):
+        if arr[j] < arr[i]:
+            info[i] = max(info[j] + 1, info[i]) # 가장 큰 값으로 유지
+
+    print(info) # test
+
 print(max(info))
