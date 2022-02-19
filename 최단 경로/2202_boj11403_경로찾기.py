@@ -2,11 +2,10 @@ import sys
 sys.setrecursionlimit(100000)
 
 def dfs(now, start):
-    visited[start] = 1
-
+    visited[start] = True
     for p in info[start]:
         table[now][p] = 1
-        if visited[p] == 0:
+        if visited[p] == False:
             dfs(now, p)
 
 N = int(input())
@@ -24,7 +23,7 @@ for i1, row in enumerate(table):
 # print(info) # test
 
 for idx in range(N):
-    visited = [0] * N
+    visited = [False] * N
     dfs(idx, idx)
 
 # for v in table: # test
