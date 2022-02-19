@@ -26,8 +26,5 @@ for idx in range(N):
     visited = [False] * N
     dfs(idx, idx)
 
-# for v in table: # test
-#     print(v)
-
 for v in table:
     print(' '.join(map(str, v)))
