@@ -35,9 +35,9 @@ for _ in range(CASE):
             count[B] = 1
 
         union(A, B)
-        # print(group) # test
-        # print(count) # test
-        # print(A)
+        print(group) # test
+        print(count) # test
+        print(A)
         result.append(count[find(A)])
 
 print(*result, sep='\n')
