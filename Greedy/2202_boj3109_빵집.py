@@ -38,8 +38,8 @@ for i in range(1, R+1):
     flag = False
     dfs(i, 1)
 
-# for v in table: # test
-#     print(v)
-# print('-'*50) # test
+    # for v in table: # test
+    #     print(v)
+    # print('-'*50) # test
 
 print(count)
