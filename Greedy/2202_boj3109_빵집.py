@@ -19,16 +19,13 @@ def dfs(py, px):
         nx = px + dir_x[i]
         ny = py + dir_y[i]
 
-        # print(py, px, '=>', ny, nx) # test
         # 범위 벗어나거나 건물 또는 이미 연결한 파이프라인 있는 경우
         if nx < 1 or nx > C or ny < 1 or ny > R or table[ny][nx] == 'x' or table[ny][nx] == 'o':
             continue
         else:
-            # table[ny][nx] = 'o' # 파이프 연결
             dfs(ny, nx)
             if nx == C:
                 return
-            # return # 한 번에 하나의 파이프라인만 연결
 
 R, C = map(int, input().split())
 
@@ -36,16 +33,13 @@ table = [['0'] * (C+1)]
 for _ in range(R):
     table.append(list('0' + sys.stdin.readline()[:-1]))
 
-# for v in table: # test
-#     print(v)
-
 count = 0
 for i in range(1, R+1):
     flag = False
     dfs(i, 1)
 
-for v in table: # test
-    print(v)
-print('-'*50) # test
+# for v in table: # test
+#     print(v)
+# print('-'*50) # test
 
 print(count)
