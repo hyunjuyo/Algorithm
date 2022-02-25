@@ -54,7 +54,6 @@ for idx in range(N-1):
     max_num = get_two_line_max_num(two_line)
     if total_max_num < max_num:
         total_max_num = max_num
-
 # 열 방향 탐색
 table_90 = get_rotate_90(table)
 for idx in range(N-1):
