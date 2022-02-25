@@ -25,10 +25,7 @@ def get_two_line_max_num(two_line):
     for case in range(N):
         tmp_0 = two_line[0][:] # 복사본 생성
         tmp_1 = two_line[1][:] # 복사본 생성
-        # print('case :', case) # test
-        # print(tmp_0, tmp_1) # test
         tmp_0[case], tmp_1[case] = tmp_1[case], tmp_0[case] # 해당 위치 swap
-        # print(tmp_0, tmp_1) # test
         num1 = get_one_line_max_num(tmp_0)
         num2 = get_one_line_max_num(tmp_1)
         if max_num < max(num1, num2):
@@ -49,10 +46,11 @@ table = []
 for _ in range(N):
     table.append(list(input()))
 
+# 두 줄씩 추출해 가장 긴 연속 부분 측정(line간 스왑 O, line 내 스왑 X)
 total_max_num = 0
 # 행 방향 탐색
 for idx in range(N-1):
-    two_line = [table[i][:] for i in range(idx, idx+2)]
+    two_line = [table[i][:] for i in range(idx, idx+2)] # 두 줄 복사본 생성
     max_num = get_two_line_max_num(two_line)
     if total_max_num < max_num:
         total_max_num = max_num
@@ -60,12 +58,12 @@ for idx in range(N-1):
 # 열 방향 탐색
 table_90 = get_rotate_90(table)
 for idx in range(N-1):
-    two_line = [table_90[i][:] for i in range(idx, idx+2)]
+    two_line = [table_90[i][:] for i in range(idx, idx+2)] # 두 줄 복사본 생성
     max_num = get_two_line_max_num(two_line)
     if total_max_num < max_num:
         total_max_num = max_num
 
-# 한 줄에서 가장 긴 연속 부분 측정(line 내 스왑 O)
+# 한 줄씩 추출해 가장 긴 연속 부분 측정(line 내 스왑 O)
 # 행 방향 탐색
 for i in range(N):
     for j in range(N-1):
