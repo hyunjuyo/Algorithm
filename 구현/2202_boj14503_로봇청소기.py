@@ -16,7 +16,7 @@ def action(y, x, d):
             x = nx
             table[y][x] = 2 # 청소 완료
             count += 1 # 청소한 칸 개수 +1
-            flag = 4
+            flag = 4 # 네 방향 체크 flag 초기화
             # # 청소 과정 시각화(test)
             # for i in range(N): # test
             #     for j in range(M):
@@ -27,7 +27,7 @@ def action(y, x, d):
             #     print()
             continue
         else:
-            flag -= 1
+            flag -= 1 # 4 방향 체크
             d = (d + 3) % 4 # 해당 방향으로 회전
         
         if flag == 0:
