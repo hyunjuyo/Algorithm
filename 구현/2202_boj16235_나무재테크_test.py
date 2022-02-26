@@ -1,8 +1,10 @@
 import heapq
 
 def spring():
+    # print('[spring] tree_list =>', tree_list) # test
     for r, c in tree_list:
         tmp_list = []
+        # print('before :', tb_tree[r][c]) # test
         while tb_tree[r][c]:
             age = heapq.heappop(tb_tree[r][c])
             tb_base[r][c] -= age # 현재 나이만큼 양분 먹기
@@ -14,14 +16,28 @@ def spring():
             if (age + 1) % 5 == 0:
                 tree_to_grow.append((age + 1, r, c)) # 나무 번식 정보에 추가
         tb_tree[r][c] = tmp_list # 나이 정보 업데이트
+        # print('after :', tb_tree[r][c]) # test
 
 def summer():
+    # print('[summer] before tb_base') # test
+    # for i, v in enumerate(tb_base): # test
+    #     if i == 0:
+    #         continue
+    #     print(v[1:])
+
     # 나무->양분 정보 테이블에 반영
     for food, r, c in tree_to_food:
         tb_base[r][c] += food
 
+    # print('[summer] after tb_base') # test
+    # for i, v in enumerate(tb_base): # test
+    #     if i == 0:
+    #         continue
+    #     print(v[1:])
+
 def fall():
     dir = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)] # 인접한 8개 칸
+    # print('[fall] tree_to_grow =>', tree_to_grow) # test
     for age, r, c in tree_to_grow:
         for i in range(8):
             nr = r + dir[i][0]
@@ -31,11 +47,27 @@ def fall():
             heapq.heappush(tb_tree[nr][nc], 1) # 나이가 1인 나무 추가
             if (nr, nc) not in tree_list:
                 tree_list.append((nr, nc))
+            # print(f'heappush ({nr}, {nc})') # test
+            # for tmp_r, tmp_c in tree_list: # test
+            #     print(f'({tmp_r}, {tmp_c}) =>', tb_tree[tmp_r][tmp_c])
+    # print('[fall] tree_list =>', tree_list) # test
 
 def winter():
+    # print('[winter] before tb_base') # test
+    # for i, v in enumerate(tb_base): # test
+    #     if i == 0:
+    #         continue
+    #     print(v[1:])
+
     for i in range(1, N+1):
         for j in range(1, N+1):
             tb_base[i][j] += tb_food[i][j] # 양분 추가
+
+    # print('[winter] after tb_base') # test
+    # for i, v in enumerate(tb_base): # test
+    #     if i == 0:
+    #         continue
+    #     print(v[1:])
 
 # 현재 기준 나무 개수 측정 함수
 def get_tree_count(tb_tree):
@@ -68,6 +100,9 @@ for _ in range(M):
     if (X, Y) not in tree_list: # 나무 위치 정보 저장
         tree_list.append((X, Y))
 
+# for v in tb_tree: # test
+#     print(v)
+
 year_count = 0
 while True:
     year_count += 1
@@ -78,6 +113,15 @@ while True:
     summer()
     fall()
     winter()
+
+    print('Year', year_count, '-'*50) # test
+    for i in range(1, N+1): # test
+        for j in range(1, N+1):
+            print('\t', len(tb_tree[i][j]), end='')
+        print()
+    
+    for r, c in tree_list: # test
+        print(f'({r}, {c}) =>', tb_tree[r][c])
 
     if year_count == K:
         break
