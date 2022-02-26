@@ -1,3 +1,5 @@
+import sys
+
 def spring():
     for r, c in tree_dict.keys():
         tmp_list = []
@@ -55,13 +57,13 @@ tb_food = [[0] * (N+1)] # 추가되는 양분 정보 테이블
 
 # 추가되는 양분 정보 저장
 for _ in range(N):
-    tmp = list(map(int, input().split()))
+    tmp = list(map(int, sys.stdin.readline().split()))
     tmp.insert(0, 0) # 첫번째 열 0 추가
     tb_food.append(tmp)
 
 tree_dict = {} # 나무 위치 정보 저장용
 for _ in range(M):
-    X, Y, Z = map(int, input().split())
+    X, Y, Z = map(int, sys.stdin.readline().split())
     tb_tree[X][Y].append(Z) # 나무 추가
     if tree_dict.get((X, Y)) is None:
         tree_dict[(X, Y)] = 0
