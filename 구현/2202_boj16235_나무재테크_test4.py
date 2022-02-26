@@ -1,13 +1,12 @@
 def spring():
     for r, c in tree_dict.keys():
         tmp_list = []
-        for i, age in enumerate(tb_tree[r][c][::-1]):
+        for age in tb_tree[r][c][::-1]:
             tb_base[r][c] -= age # 현재 나이만큼 양분 먹기
             if tb_base[r][c] < 0: # 땅에 양분이 부족한 경우
                 tb_base[r][c] += age
-                for age2 in tb_tree[r][c][::-1][i:]:
-                    tree_to_food.append((age2, r, c)) # 나무->양분 정보에 추가
-                break
+                tree_to_food.append((age, r, c)) # 나무->양분 정보에 추가
+                continue
             tmp_list.append(age + 1) # 현재 나이 +1
             if (age + 1) % 5 == 0:
                 tree_to_grow.append((age + 1, r, c)) # 나무 번식 정보에 추가

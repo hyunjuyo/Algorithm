@@ -1,17 +1,19 @@
+from collections import deque
+
 def spring():
     for r, c in tree_dict.keys():
         tmp_list = []
-        for i, age in enumerate(tb_tree[r][c][::-1]):
+        while tb_tree[r][c]:
+            age = tb_tree[r][c].popleft()
             tb_base[r][c] -= age # 현재 나이만큼 양분 먹기
             if tb_base[r][c] < 0: # 땅에 양분이 부족한 경우
                 tb_base[r][c] += age
-                for age2 in tb_tree[r][c][::-1][i:]:
-                    tree_to_food.append((age2, r, c)) # 나무->양분 정보에 추가
-                break
+                tree_to_food.append((age, r, c)) # 나무->양분 정보에 추가
+                continue
             tmp_list.append(age + 1) # 현재 나이 +1
             if (age + 1) % 5 == 0:
                 tree_to_grow.append((age + 1, r, c)) # 나무 번식 정보에 추가
-        tb_tree[r][c] = tmp_list[::-1] # 나이 정보 업데이트
+        tb_tree[r][c] = deque(tmp_list) # 나이 정보 업데이트
 
 def summer():
     # 나무->양분 정보 테이블에 반영
@@ -26,7 +28,7 @@ def fall():
             nc = c + dir[i][1]
             if nr < 1 or nr > N or nc < 1 or nc > N: # 땅 범위를 벗어나는 경우
                 continue
-            tb_tree[nr][nc].append(1) # 나이가 1인 나무 맨 오른쪽에 추가
+            tb_tree[nr][nc].appendleft(1) # 나이가 1인 나무 맨 왼쪽에 추가
             if tree_dict.get((nr, nc)) is None:
                 tree_dict[(nr, nc)] = 0
 
@@ -49,7 +51,7 @@ N, M, K = map(int, input().split())
 tb_tree = [[0] * (N+1) for _ in range(N+1)] # 나무 테이블
 for i in range(N+1):
     for j in range(N+1):
-        tb_tree[i][j] = [] # 각 위치별로 리스트로 초기화
+        tb_tree[i][j] = deque() # 각 위치별로 큐로 초기화
 tb_base = [[5] * (N+1) for _ in range(N+1)] # 양분 테이블
 tb_food = [[0] * (N+1)] # 추가되는 양분 정보 테이블
 
@@ -66,9 +68,10 @@ for _ in range(M):
     if tree_dict.get((X, Y)) is None:
         tree_dict[(X, Y)] = 0
 
-# 같은 칸에 있는 나무 내림차순 정렬
+# 같은 칸에 있는 나무 오름차순 정렬
 for r, c in tree_dict.keys():
-    tb_tree[r][c].sort(reverse=True)
+    tmp = sorted(list(tb_tree[r][c]))
+    tb_tree[r][c] = deque(tmp)
 
 year_count = 0
 while True:

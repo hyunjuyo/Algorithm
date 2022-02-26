@@ -1,22 +1,24 @@
+import heapq
+
 def spring():
-    for r, c in tree_dict.keys():
+    for r, c in tree_list:
         tmp_list = []
-        for i, age in enumerate(tb_tree[r][c][::-1]):
+        while tb_tree[r][c]:
+            age = heapq.heappop(tb_tree[r][c])
             tb_base[r][c] -= age # 현재 나이만큼 양분 먹기
             if tb_base[r][c] < 0: # 땅에 양분이 부족한 경우
                 tb_base[r][c] += age
-                for age2 in tb_tree[r][c][::-1][i:]:
-                    tree_to_food.append((age2, r, c)) # 나무->양분 정보에 추가
-                break
+                tree_to_food.append((age // 2, r, c)) # 나무->양분 정보에 추가
+                continue
             tmp_list.append(age + 1) # 현재 나이 +1
             if (age + 1) % 5 == 0:
                 tree_to_grow.append((age + 1, r, c)) # 나무 번식 정보에 추가
-        tb_tree[r][c] = tmp_list[::-1] # 나이 정보 업데이트
+        tb_tree[r][c] = tmp_list # 나이 정보 업데이트
 
 def summer():
     # 나무->양분 정보 테이블에 반영
-    for age, r, c in tree_to_food:
-        tb_base[r][c] += (age // 2) # 나이를 2로 나눈 값 양분으로 추가
+    for food, r, c in tree_to_food:
+        tb_base[r][c] += food
 
 def fall():
     dir = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)] # 인접한 8개 칸
@@ -26,9 +28,9 @@ def fall():
             nc = c + dir[i][1]
             if nr < 1 or nr > N or nc < 1 or nc > N: # 땅 범위를 벗어나는 경우
                 continue
-            tb_tree[nr][nc].append(1) # 나이가 1인 나무 맨 오른쪽에 추가
-            if tree_dict.get((nr, nc)) is None:
-                tree_dict[(nr, nc)] = 0
+            heapq.heappush(tb_tree[nr][nc], 1) # 나이가 1인 나무 추가
+            if (nr, nc) not in tree_list:
+                tree_list.append((nr, nc))
 
 def winter():
     for i in range(1, N+1):
@@ -59,16 +61,12 @@ for _ in range(N):
     tmp.insert(0, 0) # 첫번째 열 0 추가
     tb_food.append(tmp)
 
-tree_dict = {} # 나무 위치 정보 저장용
+tree_list = [] # 나무 위치 정보 저장용
 for _ in range(M):
     X, Y, Z = map(int, input().split())
-    tb_tree[X][Y].append(Z) # 나무 추가
-    if tree_dict.get((X, Y)) is None:
-        tree_dict[(X, Y)] = 0
-
-# 같은 칸에 있는 나무 내림차순 정렬
-for r, c in tree_dict.keys():
-    tb_tree[r][c].sort(reverse=True)
+    heapq.heappush(tb_tree[X][Y], Z) # list 형태로 추가(나이 어린 순서)
+    if (X, Y) not in tree_list: # 나무 위치 정보 저장
+        tree_list.append((X, Y))
 
 year_count = 0
 while True:
