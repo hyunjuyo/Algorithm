@@ -1,6 +1,6 @@
 import sys
 
-def spring_summer():
+def spring():
     for r, c in tree_dict.keys():
         tmp_list = []
         for i, age in enumerate(tb_tree[r][c][::-1]):
@@ -8,12 +8,17 @@ def spring_summer():
             if tb_base[r][c] < 0: # 땅에 양분이 부족한 경우
                 tb_base[r][c] += age
                 for age2 in tb_tree[r][c][::-1][i:]:
-                    tb_base[r][c] += (age2 // 2) # (여름) 나이를 2로 나눈 값 양분으로 추가
+                    tree_to_food.append((age2, r, c)) # 나무->양분 정보에 추가
                 break
             tmp_list.append(age + 1) # 현재 나이 +1
             if (age + 1) % 5 == 0:
                 tree_to_grow.append((age + 1, r, c)) # 나무 번식 정보에 추가
         tb_tree[r][c] = tmp_list[::-1] # 나이 정보 업데이트
+
+def summer():
+    # 나무->양분 정보 테이블에 반영
+    for age, r, c in tree_to_food:
+        tb_base[r][c] += (age // 2) # 나이를 2로 나눈 값 양분으로 추가
 
 def fall():
     dir = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)] # 인접한 8개 칸
@@ -73,7 +78,8 @@ while True:
 
     tree_to_food = [] # 나무->양분 list
     tree_to_grow = [] # 나무 번식 list
-    spring_summer()
+    spring()
+    summer()
     fall()
     winter()
 
