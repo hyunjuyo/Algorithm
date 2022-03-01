@@ -42,6 +42,7 @@ zero_to_one = 0 # 0->1 토마토 개수 저장
 day = 0
 while (zero_to_one != zero_org) and tomato_list:
     day += 1
+    print(f'day {day}', '-'*50) # test
     tomato_list = bfs(tomato_list) # 일단위로 list 업데이트
     # print(tomato_list) # test
     for h in range(H): # test
