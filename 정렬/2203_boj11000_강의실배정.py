@@ -1,5 +1,5 @@
 import sys
-from collections import deque
+import heapq
 
 N = int(input())
 arr = []
@@ -7,27 +7,17 @@ for _ in range(N):
     S, T = map(int, sys.stdin.readline().split())
     arr.append((S, T))
 
-arr.sort(key=lambda x:(x[1], x[0]))
+arr.sort()
 
-info = {}
-room = 1
+heap_list = []
+heapq.heappush(heap_list, arr[0][1]) # 첫번째 강의 끝나는 시간으로 초기화
+for i in range(1, len(arr)):
+    if arr[i][0] < heap_list[0]: # 배정된 강의 중 가장 빨리 끝나는 시간 보다 일찍 시작하는 경우
+        heapq.heappush(heap_list, arr[i][1])
+    else:
+        heapq.heappop(heap_list) # 업데이트를 위해 기존 데이터 없애기
+        heapq.heappush(heap_list, arr[i][1]) # 현재 강의가 끝나는 시간으로 업데이트
 
-q = deque(arr)
-s_time, t_time = q.popleft()
-info[room] = [(s_time, t_time)] # 첫번째 강의 추가
-while q:
-    (s, t) = q.popleft()
-    flag = False # 강의실 배정 여부
-    for room_num, lecture_list in info.items(): # 기 배정된 강의실별로 마지막 강의 시간 확인
-        t_time = lecture_list[-1][1] # 마지막 강의 종료 시간
-        if t_time <= s:
-            info[room_num].append((s, t))
-            flag = True
-            break
-    if flag == False: # 기존 강의실에 배정이 안 된 경우
-        room += 1
-        info[room] = [(s, t)] # 강의실 새로 배정
+    # print(heap_list) # test
 
-    print(info) # test
-
-print(len(info.keys()))
+print(len(heap_list))
