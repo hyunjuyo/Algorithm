@@ -1,54 +1,42 @@
 import sys
-INF = int(1e9)
+# INF = int(1e9)
 
-def get_count(mid):
-    tmp_total = [row[:] for row in total] # 복사본 생성
-    count = 0
-    for arr in tmp_total:
-        i = 1
-        while arr[-1] < mid:
-            i += 1
-            if arr[0] * i <= mid:
-                arr.append(arr[0] * i)
-            else:
-                i -= 1
-                break
-        count += i
-    for v in tmp_total: # test
-        print(v)
-    print('-'*30) # test
-    v_list = []
-    for v in tmp_total:
-        v_list.extend(v)
-    return count, v_list
+def get_total_count(mid):
+    tmp_count = [v for v in count] # 복사본 생성
+    print('time :', time) # test
+    for i in range(N):
+        tmp_count[i] = mid // time[i] # 가능한 횟수 저장
+    print('count :', tmp_count) # test
+
+    return sum(tmp_count)
 
 N, M = map(int, input().split())
-# 2차원 배열로 초기화
-total = []
+
+time = []
 max_num = 0
 for _ in range(N):
-    time = int(sys.stdin.readline())
-    total.append([time]) # 각 배열의 첫번째 값으로 초기화
-    if max_num < time: # 가장 큰 값 저장
-        max_num = time
+    v = int(sys.stdin.readline())
+    time.append(v)
+    if max_num < v: # 가장 큰 값 저장
+        max_num = v
+count = [0] * N
 
-result = []
+result = max_num * M + 1 # 최대값 설정 -> 1e9 보다 큰 숫자임 !!!!!
 l = 1
 r = max_num * M
 while l <= r:
     mid = (l + r) // 2
-    print(mid) # test
-    count, v_list = get_count(mid)
-    print('count :', count) # test
-    print('v_list :', v_list) # test
+    print('mid :', mid) # test
+    total_count = get_total_count(mid)
 
-    if count >= M:
-        result = v_list
+    if total_count >= M:
+        result = min(result, mid)
+        print('result 저장 ==================>', result) # test
         r = mid - 1
     else:
         l = mid + 1
+    
+    print('total_count :', total_count) # test
+    print('-'*50)  # test
 
-    print(sorted(result)) # test
-
-result.sort()
-print(result[M-1])
+print(result)
