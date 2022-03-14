@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(100000)
+
 def dfs(y, x):
     tmp_table[y][x] = -1 # 확인된 지점 -1 입력
 
@@ -31,7 +34,7 @@ for _ in range(N):
 # print(h, l) # test
 
 result = []
-for height in range(l, h+1):
+for height in range(0, h+1): # 비가 안오는 경우인 0부터 시작하도록 셋팅 !!!!!
     tmp_table = [row[:] for row in table] # 복사본 생성
     for i in range(N):
         for j in range(N):
