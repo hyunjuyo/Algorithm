@@ -1,3 +1,4 @@
+import sys
 from collections import deque
 
 N, M = map(int, input().split())
@@ -5,7 +6,7 @@ info = [[0, 0, i] for i in range(N+1)]
 right = [list() for _ in range(N+1)]
 
 for _ in range(M):
-    A, B = map(int, input().split())
+    A, B = map(int, sys.stdin.readline().split())
     info[B][0] += 1 # 앞에 있는 학생수 +1
     info[A][1] += 1 # 뒤에 있는 학생수 +1
     right[A].append(B) # 뒤에 있는 학생번호 저장
