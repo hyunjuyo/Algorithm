@@ -9,24 +9,14 @@ for _ in range(N):
 # print(info) # test
 
 result = []
-tmp = [] # 임시 저장 리스트
-minus = 0
 for d in range(1, max_day+1):
     print('-'*20, 'd :', d) # test
-    tmp.extend(info[d]) # 임시 저장
-    print('tmp :', tmp) # test
-    if len(tmp) > d: # 일수보다 과제수가 더 많아질 경우
-        tmp.sort(reverse=True)
-        result.extend(tmp[:d - minus]) # 과제 점수 높은 순서로 결과 저장
-        tmp = [0] * d # 임시 저장 리스트에 개수만 채우기
-        minus = d
-        print('result :', result) # test
-
-# 임시 저장 리스트에 남아있는 과제 점수 더하기
-tmp.sort(reverse=True)
-for v in tmp:
-    if v > 0:
-        result.append(v)
+    result.extend(info[d])
+    print('result1 :', result) # test
+    if len(result) > d: # 일수보다 과제수가 더 많아질 경우
+        result.sort(reverse=True)
+        result = result[:d] # 과제 점수 높은 순서로 가능한 과제수 개수만큼 저장
+        print('result2 :', result) # test
 
 print(result) # test
 print(sum(result))
