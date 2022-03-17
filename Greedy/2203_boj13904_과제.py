@@ -22,13 +22,18 @@ result = []
 count = 0
 tmp = []
 for d in range(1, max_day+1):
-    count += len(info[d])
+    # count += len(info[d])
     tmp.extend(info[d])
-    if count > d:
+    if len(tmp) > d:
         tmp.sort(reverse=True)
         result.extend(tmp[:d])
-        count = d
+        # count = d
         tmp = [-1] * d
+
+tmp.sort(reverse=True)
+for v in tmp:
+    if v > 0:
+        result.append(v)
 
 print(result) # test
 print(sum(result))
