@@ -1,4 +1,4 @@
-# Coding test Study
+# Coding Test Study
 
 ### 주요 알고리즘 분류별 순서대로 해당 백준 문제 풀기
   - 주요 알고리즘 분류<br>
