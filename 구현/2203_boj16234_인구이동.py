@@ -27,7 +27,7 @@ def dfs(y, x):
         if tmp[ny][nx]:
             dfs(ny, nx)
 
-# def bfs(y, x):
+# def bfs(y, x): # bfs로 할 경우 시간초과!!!!!
 #     global pos
 #     q = deque([(y, x)])
 #     while q:
@@ -56,10 +56,10 @@ def open_n_move(table):
             if tmp[i][j]:
                 pos = []
                 dfs(i, j)
-                print('-'*30) # test
-                print('pos :', pos) # test
-                for v in tmp: # test
-                    print(v)
+                # print('-'*30) # test
+                # print('pos :', pos) # test
+                # for v in tmp: # test
+                #     print(v)
                 fill_new_num(pos)
                 # for i, j in pos:
                 #     table[i][j] = new_num
@@ -74,17 +74,16 @@ result = 0
 tmp = [[False] * N for _ in range(N)]
 while True:
     pos = []
-    # tmp = [[False] * N for _ in range(N)]
     info = [[list() for _ in range(N)] for _ in range(N)]
     if check_boundary(table) == 0:
         break
-    print('here') # test
-    for v in tmp: # test
-        print(v)
-    print(pos) # test
+    # print('here') # test
+    # for v in tmp: # test
+    #     print(v)
+    # print(pos) # test
     open_n_move(table)
-    for v in table: # test
-        print(v)
+    # for v in table: # test
+    #     print(v)
     result += 1
 
 print(result)
