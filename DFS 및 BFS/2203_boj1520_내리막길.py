@@ -4,6 +4,7 @@ sys.setrecursionlimit(10**6)
 
 def dfs(y, x):
     if y == M-1 and x == N-1:
+        info[y][x] = 0
         return 1
     dir = [(-1, 0), (0, 1), (1, 0), (0, -1)]
     if info[y][x] == -1:
