@@ -19,14 +19,17 @@ def bfs(y, x, s):
             if table[ny][nx] == 1 and s == 0:
                 visited[ny][nx][1] = visited[py][px][s] + 1
                 q.append((ny, nx, 1))
-        for ab in visited: # test
-            for i, v in enumerate(zip(*ab)):
-                for v2 in v:
+        for i, ab in enumerate(visited): # test
+            for k, v in enumerate(zip(*ab)):
+                for j, v2 in enumerate(v):
+                    if table[i][j] == 1:
+                        print('\033[107m\033[90m', end='')
                     if v2 < 10:
                         print(f'0{v2}', end=' ')
                     else:
                         print(v2, end=' ')
-                if i == 0:
+                    print('\033[0m', end='')
+                if k == 0:
                     print(' |  ', end='')
             print()
         print('-'*50) # test
