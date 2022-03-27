@@ -1,66 +1,51 @@
 import sys
 from collections import deque
 
-def is_cand(table, y, x):
-    count_zero = 0
-    d = [(-1, 0), (0, 1), (1, 0), (0, -1)]
-    for i in range(4):
-        ny = y + d[i][0]
-        nx = x + d[i][1]
-        if ny < 0 or ny >= N or nx < 0 or nx >= M:
-            continue
-        if table[ny][nx] == 0:
-            count_zero += 1
-    if count_zero >= 2:
-        return True
-    else:
-        return False
-
-def get_cand(table):
-    pos = []
-    for i in range(N):
-        for j in range(M):
-            if table[i][j] == 1 and is_cand(table, i, j):
-                pos.append((i, j))
-    return pos
-
-def bfs(y, x):
-    q = deque([(y, x)])
-    d = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+def bfs(y, x, s):
+    q = deque([(y, x, s)])
+    d = [(0, 1), (1, 0), (0, -1), (-1, 0)] # 동, 남, 서, 북
     while q:
-        py, px = q.popleft()
+        py, px, s = q.popleft()
         for i in range(4):
             ny = py + d[i][0]
             nx = px + d[i][1]
             if ny < 0 or ny >= N or nx < 0 or nx >= M:
                 continue
+            if visited[ny][nx][s] > 0:
+                continue
             if table[ny][nx] == 0:
-                table[ny][nx] = table[py][px] + 1
-                q.append((ny, nx))
-        for v in table: # test
-            print(v)
-        print('-'*20) # test
+                visited[ny][nx][s] = visited[py][px][s] + 1
+                q.append((ny, nx, s))
+            if table[ny][nx] == 1 and s == 0:
+                visited[ny][nx][1] = visited[py][px][s] + 1
+                q.append((ny, nx, 1))
+        for ab in visited: # test
+            for i, v in enumerate(zip(*ab)):
+                for v2 in v:
+                    if v2 < 10:
+                        print(f'0{v2}', end=' ')
+                    else:
+                        print(v2, end=' ')
+                if i == 0:
+                    print(' |  ', end='')
+            print()
+        print('-'*50) # test
 
 N, M = map(int, input().split())
-table_org = []
+table = []
 for _ in range(N):
-    table_org.append(list(map(int, list(sys.stdin.readline()[:-1]))))
+    table.append(list(map(int, list(sys.stdin.readline()[:-1]))))
 
-pos = get_cand(table_org)
-print('pos :', pos) # test
+visited = [[[0, 0] for _ in range(M)] for _ in range(N)]
+visited[0][0][0] = 1 # 시작지점 count +1
+bfs(0, 0, 0)
 
 result = []
-for (y, x) in pos:
-    print(f'({y}, {x})', '-'*20) # test
-    table = [row[:] for row in table_org] # 복사본 생성
-    table[y][x] = 0 # 벽 부수기
+if visited[N-1][M-1][0] > 0:
+    result.append(visited[N-1][M-1][0])
+if visited[N-1][M-1][1] > 0:
+    result.append(visited[N-1][M-1][1])
 
-    table[0][0] = 1 # 시작지점 count +1
-    bfs(0, 0)
-    if table[N-1][M-1] > 0:
-        result.append(table[N-1][M-1])
-
-print(result) # test
 if result:
     print(min(result))
 else:
