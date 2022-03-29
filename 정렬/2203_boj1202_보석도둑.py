@@ -17,17 +17,20 @@ bag.sort()
 print(gold) # test
 print(bag) # test
 
+status = [0] * K
+k_count = K
 result = 0
 q = deque(gold)
-while q and K:
+while q and k_count:
     price, weight = q.popleft()
     print('price, weight :', price, weight) # test
     for i in range(K):
-        if bag[i] >= weight:
-            print('bag', bag[i]) # test
+        if bag[i] >= weight and status[i] == 0:
+            print('bag', i) # test
+            status[i] = price
             result += price
-            bag.pop(i)
-            K -= 1
+            print(status) # test
+            k_count -= 1
             break
 
 print(result)
