@@ -1,36 +1,31 @@
 import sys
+import heapq
 from collections import deque
 
 N, K = map(int, input().split())
 gold = []
 for _ in range(N):
     M, V = map(int, sys.stdin.readline().split())
-    gold.append((V, M))
-bag = []
+    gold.append((M, V))
+bags = []
 for _ in range(K):
     C = int(sys.stdin.readline())
-    bag.append(C)
+    bags.append(C)
 
-gold.sort(key=lambda x:(-x[0], x[1])) # 가격 높은 순서, 무게 가벼운 순서
-bag.sort()
+gold.sort()
+bags.sort()
 
-print(gold) # test
-print(bag) # test
-
-status = [0] * K
-k_count = K
 result = 0
 q = deque(gold)
-while q and k_count:
-    price, weight = q.popleft()
-    print('price, weight :', price, weight) # test
-    for i in range(K):
-        if bag[i] >= weight and status[i] == 0:
-            print('bag', i) # test
-            status[i] = price
-            result += price
-            print(status) # test
-            k_count -= 1
-            break
+h = []
+for bag in bags:
+    # print('bag :', bag) # test
+    while q and q[0][0] <= bag:
+        price, weight = q.popleft()
+        heapq.heappush(h, -weight)
+        # print('heapq :', h) # test
+    if h:
+        result += heapq.heappop(h)
+        # print('result :', result) # test
 
-print(result)
+print(-result)
