@@ -2,8 +2,6 @@ import sys
 
 N = int(input())
 table = []
-# for _ in range(N):
-#     table.append(list(map(int, sys.stdin.readline().split())))
 
 # 결과 저장용
 max_num = [[0, 0, 0] for _ in range(2)]
@@ -27,4 +25,4 @@ for i in range(N):
     print(max_num) # test
     print(min_num) # test
 
-print(max(max_num), min(min_num))
+print(max(max_num[1]), min(min_num[1]))
