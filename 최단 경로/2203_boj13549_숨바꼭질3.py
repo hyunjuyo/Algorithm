@@ -11,7 +11,7 @@ while q:
     if now == K:
         result = sec
         break
-    if now * 2 == K:
+    if now * 2 == K: # x2인 경우를 가장 먼저 판단해야함!!!!!
         result = sec
         break
     elif 0 <= now * 2 <= 100000 and visited[now * 2] is False: # 최초 방문 시
