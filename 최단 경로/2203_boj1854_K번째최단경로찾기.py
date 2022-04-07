@@ -6,13 +6,16 @@ def dijkstra(s):
     heapq.heappush(h, (0, s))
     while h:
         ptime, now = heapq.heappop(h)
+        print('now :', now, 'ptime:', ptime, '-'*50) # test
         if ptime > time_list[now][K-1]:
             continue
         for next, time in info[now]:
+            print('next :', next, 'time :', time) # test
             ntime = ptime + time
             if ntime < time_list[next][K-1]:
                 time_list[next][K-1] = ntime
                 time_list[next].sort()
+                print(f'time_list[{next}] :', time_list[next]) # test
                 heapq.heappush(h, (ntime, next))
 
 N, M, K = map(int, input().split())
