@@ -41,8 +41,7 @@ hour = 0
 while True:
     if len(one_pos) == cheese: # 치즈가 모두 녹기 한 시간 전일 경우
         break
-    print('cheese :', cheese) # test
-    print('one_pos :', one_pos) # test
+
     # 새로 공기 접촉한 0 위치 정보 저장
     zero_pos = set()
     for (y, x) in one_pos:
@@ -51,7 +50,7 @@ while True:
             nx = x + v[1]
             if table[ny][nx] == 0: # 새로 공기 접촉하게 된 경우
                 zero_pos.add((ny, nx))
-    print('zero_pos :', zero_pos) # test
+
     # 치즈가 녹는다
     for (y, x) in one_pos:
         table[y][x] = 9
@@ -60,6 +59,7 @@ while True:
     # 현재 기준 공기 부분 9로 표기
     for (y, x) in zero_pos:
         dfs_air(y, x)
+
     # 공기와 접촉한 1 위치 저장
     one_pos = set()
     for i in range(R):
@@ -72,18 +72,7 @@ while True:
                         one_pos.add((i, j))
                         break
 
-    for v in table: # test
-        print(v)
-    print('-'*50) # test
-
     hour += 1
-
-# count = 0
-# for i in range(R):
-#     for j in range(C):
-#         if table[i][j] == 1:
-#             dfs_count(i, j)
-#             count += 1
 
 print(hour + 1)
 print(cheese)
