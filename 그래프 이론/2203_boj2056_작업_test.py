@@ -22,19 +22,20 @@ max_cost = [0] * (N+1) # 선행작업 누적시간 중 최대값 저장용
 q = deque()
 for i in range(1, N+1):
     if inDegree[i] == 0:
-        q.append(i)
-        max_cost[i] = cost_list[i]
+        q.append((i, 0))
 while q:
-    now = q.popleft()
-    print('now :', now) # test
+    now, cost = q.popleft()
+    print('now, cost :', now, cost) # test
+    cost += cost_list[now]
+    print(cost_list[now], 'after cost :', cost) # test
     for next in info[now]:
         print('next :', next) # test
-        max_cost[next] = max(max_cost[next], max_cost[now] + cost_list[next])
+        max_cost[next] = max(max_cost[next], cost) # 선행작업 누적시간 중 최대값으로 업데이트
         inDegree[next] -= 1 # 선행작업 개수 -1
         if inDegree[next] == 0:
-            q.append(next)
+            q.append((next, max_cost[next]))
     print(q) # test
     print('-'*50) # test
 
 print('max_cost :', max_cost) # test
-print(max(max_cost))
+print(cost)
