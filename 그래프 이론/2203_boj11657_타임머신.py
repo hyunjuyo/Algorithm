@@ -1,41 +1,30 @@
-import sys
-import heapq
+import math
 
-INF = sys.maxsize
+INF = math.inf
 
-def dijkstra(s):
-    global flag
-    h = []
-    heapq.heappush(h, (0, s))
-    while h:
-        t, now = heapq.heappop(h)
-        if t > time[now]:
-            continue
-        for next, dt in info[now]:
-            nt = t + dt
-            if nt < time[next]:
-                time[next] = nt
-                heapq.heappush(h, (nt, next))
-                count[next] += 1
-
-        for v in count[1:]:
-            if v > 6000:
-                flag = False
-                break
-        if flag is False:
-            break
-
+# 벨만 포드(bellman_ford)
+def bf(s):
+    time[s] = 0 # 시작지점 시간 0
+    for i in range(N):
+        for j in range(M):
+            now = info[j][0]
+            next = info[j][1]
+            dt = info[j][2]
+            if time[now] != INF and time[next] > time[now] + dt:
+                time[next] = time[now] + dt
+                if i == N - 1:
+                    return False
+    return True
+                    
 N, M = map(int, input().split())
 
-info = [list() for _ in range(N+1)]
+info = []
 for _ in range(M):
     a, b, c = map(int, input().split())
-    info[a].append((b, c))
+    info.append((a, b, c))
 
 time = [INF] * (N+1)
-count = [0] * (N+1)
-flag = True
-dijkstra(1)
+flag = bf(1)
 
 if flag:
     for v in time[2:]:
