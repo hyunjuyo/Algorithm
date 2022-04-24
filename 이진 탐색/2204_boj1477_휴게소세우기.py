@@ -2,16 +2,15 @@ import sys
 INF = sys.maxsize
 
 def get_max_length(sorted_arr):
+    if len(sorted_arr) == 0:
+        return L
     max_length = sorted_arr[0] # 첫 휴게소까지의 거리로 초기화
-    idx = 0
     for i in range(1, len(sorted_arr)): # arr은 이미 정렬된 상태
         if sorted_arr[i] - sorted_arr[i-1] > max_length:
             max_length = sorted_arr[i] - sorted_arr[i-1]
-            idx = i
     if L - sorted_arr[-1] > max_length:
         max_length = L - sorted_arr[-1]
-        idx = L
-    return max_length, idx
+    return max_length
 
 def add_spots(arr, mid):
     tmp_arr = arr[:]
@@ -35,7 +34,7 @@ pos = list(map(int, input().split()))
 pos.sort()
 
 result = INF
-max_len, idx = get_max_length(pos)
+max_len = get_max_length(pos)
 l = 1
 r = max_len
 while l <= r:
